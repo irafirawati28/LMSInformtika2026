@@ -74,6 +74,30 @@ npm run typecheck
 npm run build
 ```
 
+## Deploy ke Vercel
+
+Vercel menjalankan Express sebagai satu Function. Frontend Vite dibangun ke `public/` agar disajikan CDN Vercel, sedangkan semua endpoint tetap pada origin yang sama.
+
+1. Pastikan keenam migrasi PostgreSQL di atas sudah diterapkan ke project Supabase.
+2. Buat bucket Supabase Storage bernama `lms-private`, set sebagai **private**, dan batasi ukuran objek hingga 20 MB. Jangan membuat bucket publik.
+3. Jika database sudah berisi unggahan lokal, cadangkan `server/storage/` terlebih dahulu. Atur kredensial database dan Storage pada `server/.env`, lalu jalankan `npm run migrate-files --workspace @kanal/server` dari komputer yang memiliki file lama. Periksa hasil migrasi sebelum menghapus cadangan.
+4. Push repo ke GitHub dan impor repo itu di Vercel. Gunakan root directory repo (bukan `client/`), Framework Preset Express, dan Build Command `npm run build`.
+5. Tambahkan environment variables berikut di Vercel (Production, Preview, Development sesuai kebutuhan):
+
+  - `DATABASE_URL`: connection string Transaction Pooler Supabase.
+  - `DATABASE_SSL`: `true`.
+  - `SESSION_SECRET`: string acak minimal 32 karakter; buat lokal dengan `openssl rand -base64 48` dan masukkan langsung ke Vercel.
+  - `SUPABASE_URL`: URL project Supabase.
+  - `SUPABASE_SERVICE_ROLE_KEY`: service role/secret key, hanya di environment server Vercel; jangan gunakan di frontend atau commit ke Git.
+  - `SUPABASE_STORAGE_BUCKET`: `lms-private`.
+  - `FRONTEND_ORIGIN`: URL Production Vercel, misalnya `https://nama-aplikasi.vercel.app`.
+
+  Jika koneksi Postgres memerlukan CA certificate, simpan sertifikat sebagai secret dan isi `DATABASE_CA_CERT_BASE64` dengan hasil `base64 < supabase-ca.crt`. Jangan menaruh connection string, key, atau sertifikat ke `VITE_*` variables.
+
+6. Deploy, lalu cek `https://nama-aplikasi.vercel.app/api/health`. Buat atau perbarui akun guru, login, lalu uji kelas, unggah file materi dan tugas, serta buka file sebagai siswa.
+
+Unggahan dari browser dikirim langsung menggunakan URL bertanda tangan ke bucket privat, bukan melewati batas body Vercel Function 4,5 MB. Endpoint file tetap memeriksa role/keanggotaan sebelum memberi URL unduh yang berlaku singkat. Project Supabase Free dapat dijeda setelah seminggu tidak aktif; batas dan harga dapat berubah, jadi tinjau [harga Supabase](https://supabase.com/pricing) dan [batas Vercel Functions](https://vercel.com/docs/functions/limitations) sebelum dipakai rutin.
+
 Jangan menyimpan kredensial atau berkas unggahan di repository.
 
 ## Database Supabase (Tahap 3)

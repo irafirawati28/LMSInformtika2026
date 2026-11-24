@@ -1,0 +1,14 @@
+node_modules/
+dist/
+coverage/
+public/
+.env
+.env.*
+!.env.example
+uploads/
+server/storage/modules/*
+!server/storage/modules/.gitkeep
+server/storage/assignments/*
+!server/storage/assignments/.gitkeep
+server/supabase-ca.crt
+.DS_Store

@@ -1,0 +1,23 @@
+{
+  "name": "kanal-informatika-ibu-ira",
+  "private": true,
+  "version": "0.1.0",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "dev": "concurrently -k -n API,WEB \"npm run dev --workspace @kanal/server\" \"npm run dev --workspace @kanal/client\"",
+    "build": "npm run build --workspace @kanal/server && npm run build --workspace @kanal/client && node -e \"const fs = require('fs'); fs.mkdirSync('public', { recursive: true }); fs.cpSync('client/dist', 'public', { recursive: true });\"",
+    "typecheck": "npm run typecheck --workspace @kanal/server && npm run typecheck --workspace @kanal/client"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  },
+  "overrides": {
+    "uuid": "11.1.1"
+  }
+}

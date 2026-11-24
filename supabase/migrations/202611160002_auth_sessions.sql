@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS sessions (
+  session_id VARCHAR(128) PRIMARY KEY,
+  expires TIMESTAMPTZ NOT NULL,
+  data JSONB NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_sessions_expires ON sessions (expires);
+
+ALTER TABLE sessions ENABLE ROW LEVEL SECURITY;
