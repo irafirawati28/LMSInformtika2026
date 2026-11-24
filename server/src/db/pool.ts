@@ -5,7 +5,7 @@ import { Pool, types } from "pg";
 import { appConfig } from "../config/app-config.js";
 
 if (!appConfig.databaseUrl) {
-  throw new Error("DATABASE_URL Supabase wajib diatur di server/.env.");
+  console.error("PERINGATAN: DATABASE_URL belum diatur di environment variables.");
 }
 
 const isProduction = appConfig.nodeEnv === "production";
@@ -13,7 +13,8 @@ const useSsl = appConfig.databaseSsl || isProduction;
 
 types.setTypeParser(20, (value) => value);
 
-const databaseUrl = new URL(appConfig.databaseUrl);
+const defaultDbUrl = "postgresql://localhost:5432/postgres";
+const databaseUrl = new URL(appConfig.databaseUrl || defaultDbUrl);
 const caCertPath = appConfig.databaseCaCert ?? databaseUrl.searchParams.get("sslrootcert");
 const serverRoot = fileURLToPath(new URL("../../", import.meta.url));
 

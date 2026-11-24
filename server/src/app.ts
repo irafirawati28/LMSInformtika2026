@@ -33,6 +33,7 @@ import { studentsRouter } from "./modules/students/students.routes.js";
 import { sessionMiddleware } from "./middleware/session.js";
 import { csrfProtection } from "./middleware/csrf.js";
 import { appConfig } from "./config/app-config.js";
+import { pool } from "./db/pool.js";
 
 const app = express();
 const supabaseOrigin = appConfig.supabaseUrl ? new URL(appConfig.supabaseUrl).origin : null;
@@ -54,6 +55,35 @@ app.use(
   }),
 );
 app.use(express.json({ limit: "1mb" }));
+
+app.get("/api/health", async (_request, response) => {
+  let dbStatus = "unknown";
+  try {
+    if (appConfig.databaseUrl) {
+      await pool.query("SELECT 1");
+      dbStatus = "connected";
+    } else {
+      dbStatus = "missing_database_url";
+    }
+  } catch (error: any) {
+    dbStatus = `error: ${error?.message || "failed"}`;
+  }
+
+  response.json({
+    status: "ok",
+    application: "KANAL INFORMATIKA IBU IRA",
+    database: dbStatus,
+    config: {
+      hasDatabaseUrl: Boolean(appConfig.databaseUrl),
+      hasCaCert: Boolean(appConfig.databaseCaCertBase64),
+      hasSessionSecret: Boolean(process.env.SESSION_SECRET),
+      hasSupabaseUrl: Boolean(appConfig.supabaseUrl),
+      hasServiceRoleKey: Boolean(appConfig.supabaseServiceRoleKey),
+      nodeEnv: appConfig.nodeEnv,
+    },
+  });
+});
+
 app.use(
   session({
     name: "kanal.sid",
@@ -71,13 +101,6 @@ app.use(
   }),
 );
 app.use(csrfProtection);
-
-app.get("/api/health", (_request, response) => {
-  response.json({
-    status: "ok",
-    application: "KANAL INFORMATIKA IBU IRA",
-  });
-});
 
 app.use("/api/auth", authRouter);
 app.use("/api/dashboard", dashboardRouter);

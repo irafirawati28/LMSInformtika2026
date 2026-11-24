@@ -51,7 +51,7 @@ if (databaseUrl) {
   }
 }
 if (Boolean(supabaseUrl) !== Boolean(supabaseServiceRoleKey)) {
-  throw new Error("SUPABASE_URL dan SUPABASE_SERVICE_ROLE_KEY harus diatur bersama.");
+  console.warn("PERINGATAN: SUPABASE_URL dan SUPABASE_SERVICE_ROLE_KEY sebaiknya diatur bersama.");
 }
 if (supabaseUrl) {
   let parsedSupabaseUrl: URL;
