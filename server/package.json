@@ -2,11 +2,10 @@
   "name": "@kanal/server",
   "private": true,
   "version": "0.1.0",
-  "type": "module",
-  "main": "app.cjs",
+  "main": "app.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "tsc && esbuild src/app.ts --bundle --platform=node --format=cjs --footer:js=\"module.exports = app_default; module.exports.default = app_default;\" --outfile=app.cjs",
+    "build": "tsc && esbuild src/app.ts --bundle --platform=node --format=cjs --footer:js=\"module.exports = app_default; module.exports.default = app_default;\" --outfile=app.js",
     "start": "node dist/server.js",
     "typecheck": "tsc --noEmit",
     "provision-user": "tsx src/db/provision-user.ts",

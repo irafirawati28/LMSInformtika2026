@@ -129565,7 +129565,7 @@ __export(app_exports, {
   default: () => app_default
 });
 module.exports = __toCommonJS(app_exports);
-var import_express12 = __toESM(require_express2(), 1);
+var import_express12 = __toESM(require_express2());
 
 // ../node_modules/helmet/index.mjs
 var dashify = (str) => str.replace(/[A-Z]/g, (capitalLetter) => "-" + capitalLetter.toLowerCase());
@@ -130135,11 +130135,11 @@ var helmet = Object.assign(
 );
 
 // src/app.ts
-var import_express_session2 = __toESM(require_express_session(), 1);
+var import_express_session2 = __toESM(require_express_session());
 
 // src/modules/auth/auth.routes.ts
 var import_node_crypto2 = require("node:crypto");
-var import_express = __toESM(require_express2(), 1);
+var import_express = __toESM(require_express2());
 
 // ../node_modules/express-rate-limit/dist/index.mjs
 var import_node_buffer = require("node:buffer");
@@ -133082,7 +133082,7 @@ router.post("/logout", async (request, response) => {
 });
 
 // src/modules/dashboard/dashboard.routes.ts
-var import_express2 = __toESM(require_express2(), 1);
+var import_express2 = __toESM(require_express2());
 var router2 = (0, import_express2.Router)();
 var toNumber = (value) => Number(value);
 router2.get("/", requireAuthenticated, async (_request, response) => {
@@ -133454,7 +133454,7 @@ router2.get("/", requireAuthenticated, async (_request, response) => {
 });
 
 // src/modules/classes/classes.routes.ts
-var import_express3 = __toESM(require_express2(), 1);
+var import_express3 = __toESM(require_express2());
 
 // src/middleware/require-teacher.ts
 var requireTeacher = (request, response, next) => {
@@ -133797,11 +133797,11 @@ router3.delete(
 );
 
 // src/modules/modules/modules.routes.ts
-var import_express4 = __toESM(require_express2(), 1);
+var import_express4 = __toESM(require_express2());
 var import_node_crypto4 = require("node:crypto");
 var import_promises2 = require("node:fs/promises");
 var import_node_path3 = require("node:path");
-var import_multer = __toESM(require_multer(), 1);
+var import_multer = __toESM(require_multer());
 
 // src/shared/private-storage.ts
 var import_node_crypto3 = require("node:crypto");
@@ -143486,7 +143486,7 @@ studentRouter.post("/modules/:moduleId/contents/:contentId/open", async (request
 });
 
 // src/modules/games/games.routes.ts
-var import_express5 = __toESM(require_express2(), 1);
+var import_express5 = __toESM(require_express2());
 var teacherRouter2 = (0, import_express5.Router)();
 var studentRouter2 = (0, import_express5.Router)();
 teacherRouter2.use(requireTeacher);
@@ -144074,8 +144074,8 @@ studentRouter2.post("/games/:gameId/submit", async (request, response) => {
 // src/modules/assignments/assignments.routes.ts
 var import_node_crypto5 = require("node:crypto");
 var import_node_path4 = require("node:path");
-var import_express6 = __toESM(require_express2(), 1);
-var import_multer2 = __toESM(require_multer(), 1);
+var import_express6 = __toESM(require_express2());
+var import_multer2 = __toESM(require_multer());
 var teacherRouter3 = (0, import_express6.Router)();
 var studentRouter3 = (0, import_express6.Router)();
 teacherRouter3.use(requireTeacher);
@@ -145464,7 +145464,7 @@ teacherRouter3.get("/assignment-submissions/:submissionId/file", async (request,
 });
 
 // src/modules/attendance/attendance.routes.ts
-var import_express7 = __toESM(require_express2(), 1);
+var import_express7 = __toESM(require_express2());
 var statuses = /* @__PURE__ */ new Set(["PRESENT", "PERMISSION", "SICK", "ABSENT"]);
 var teacherRouter4 = (0, import_express7.Router)();
 var studentRouter4 = (0, import_express7.Router)();
@@ -145738,10 +145738,10 @@ studentRouter4.get("/classes/:classId/attendance", async (request, response) => 
 });
 
 // src/modules/grades/grades.routes.ts
-var import_express8 = __toESM(require_express2(), 1);
+var import_express8 = __toESM(require_express2());
 
 // src/shared/excel-workbook.ts
-var import_exceljs = __toESM(require_excel(), 1);
+var import_exceljs = __toESM(require_excel());
 async function createExcelWorkbook(sheetName, headers, rows) {
   const workbook = new import_exceljs.default.Workbook();
   workbook.creator = "KANAL INFORMATIKA IBU IRA";
@@ -146079,7 +146079,7 @@ studentRouter5.get("/classes/:classId/grades", async (request, response) => {
 });
 
 // src/modules/reports/reports.routes.ts
-var import_express9 = __toESM(require_express2(), 1);
+var import_express9 = __toESM(require_express2());
 var router4 = (0, import_express9.Router)();
 router4.use(requireTeacher);
 var idFrom6 = (value) => typeof value === "string" && /^[1-9]\d{0,18}$/.test(value) ? value : null;
@@ -146442,7 +146442,7 @@ router4.get("/classes/:classId/report", async (request, response) => {
 });
 
 // src/modules/announcements/announcements.routes.ts
-var import_express10 = __toESM(require_express2(), 1);
+var import_express10 = __toESM(require_express2());
 var teacherRouter6 = (0, import_express10.Router)();
 var studentRouter6 = (0, import_express10.Router)();
 teacherRouter6.use("/announcements", requireTeacher);
@@ -146587,10 +146587,10 @@ studentRouter6.get("/announcements", async (_request, response) => {
 });
 
 // src/modules/students/students.routes.ts
-var import_express11 = __toESM(require_express2(), 1);
+var import_express11 = __toESM(require_express2());
 var import_node_stream = require("node:stream");
-var import_exceljs2 = __toESM(require_excel(), 1);
-var import_multer3 = __toESM(require_multer(), 1);
+var import_exceljs2 = __toESM(require_excel());
+var import_multer3 = __toESM(require_multer());
 var router5 = (0, import_express11.Router)();
 router5.use(requireTeacher);
 var studentImportUpload = (0, import_multer3.default)({
@@ -147061,7 +147061,7 @@ router5.get("/", async (request, response) => {
 });
 
 // src/middleware/session.ts
-var import_express_session = __toESM(require_express_session(), 1);
+var import_express_session = __toESM(require_express_session());
 var PostgresSessionStore = class extends import_express_session.default.Store {
   get(sessionId, callback) {
     void pool.query(
@@ -147126,18 +147126,18 @@ var csrfProtection = (request, response, next) => {
 };
 
 // src/app.ts
-var import_node_fs2 = require("node:fs");
-var import_meta = {};
-try {
-  (0, import_node_fs2.readFileSync)(new URL("../package.json", import_meta.url), "utf8");
-} catch {
-}
 var app = (0, import_express12.default)();
 var supabaseOrigin = appConfig.supabaseUrl ? new URL(appConfig.supabaseUrl).origin : null;
 app.disable("x-powered-by");
 if (appConfig.nodeEnv === "production") {
   app.set("trust proxy", 1);
 }
+app.use((request, _response, next) => {
+  if (request.url && !request.url.startsWith("/api")) {
+    request.url = "/api" + (request.url.startsWith("/") ? "" : "/") + request.url;
+  }
+  next();
+});
 app.use(
   helmet({
     contentSecurityPolicy: {
@@ -147151,7 +147151,7 @@ app.use(
   })
 );
 app.use(import_express12.default.json({ limit: "1mb" }));
-app.get("/api/health", async (_request, response) => {
+app.get(["/api/health", "/health", "/api", "/"], async (_request, response) => {
   let dbStatus = "unknown";
   try {
     if (appConfig.databaseUrl) {
@@ -147216,6 +147216,9 @@ app.use("/api", teacherRouter2);
 app.use("/api", teacherRouter3);
 app.use("/api", teacherRouter4);
 app.use("/api", teacherRouter5);
+app.use((_request, response) => {
+  response.status(404).json({ error: "Rute API tidak ditemukan." });
+});
 app.use(
   (error, _request, response, _next) => {
     if (error instanceof SyntaxError && "status" in error && error.status === 400) {

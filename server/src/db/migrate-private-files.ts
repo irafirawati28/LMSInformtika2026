@@ -108,11 +108,15 @@ const migrateFiles = async (): Promise<void> => {
   if (failed > 0) process.exitCode = 1;
 };
 
-try {
-  await migrateFiles();
-} catch (error) {
-  console.error("Migrasi file privat gagal:", error);
-  process.exitCode = 1;
-} finally {
-  await pool.end();
-}
+const runMigration = async (): Promise<void> => {
+  try {
+    await migrateFiles();
+  } catch (error) {
+    console.error("Migrasi file privat gagal:", error);
+    process.exitCode = 1;
+  } finally {
+    await pool.end();
+  }
+};
+
+void runMigration();

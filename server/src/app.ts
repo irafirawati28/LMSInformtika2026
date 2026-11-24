@@ -36,11 +36,7 @@ import { appConfig } from "./config/app-config.js";
 import { pool } from "./db/pool.js";
 import { readFileSync } from "node:fs";
 
-try {
-  readFileSync(new URL("../package.json", import.meta.url), "utf8");
-} catch {
-  // Silent fallback if running in environments where package.json is moved
-}
+
 
 const app = express();
 const supabaseOrigin = appConfig.supabaseUrl ? new URL(appConfig.supabaseUrl).origin : null;
@@ -49,6 +45,15 @@ app.disable("x-powered-by");
 if (appConfig.nodeEnv === "production") {
   app.set("trust proxy", 1);
 }
+
+// Normalize incoming paths so that /api prefix is present regardless of Vercel service rewrite format
+app.use((request, _response, next) => {
+  if (request.url && !request.url.startsWith("/api")) {
+    request.url = "/api" + (request.url.startsWith("/") ? "" : "/") + request.url;
+  }
+  next();
+});
+
 app.use(
   helmet({
     contentSecurityPolicy: {
@@ -63,7 +68,7 @@ app.use(
 );
 app.use(express.json({ limit: "1mb" }));
 
-app.get("/api/health", async (_request, response) => {
+app.get(["/api/health", "/health", "/api", "/"], async (_request, response) => {
   let dbStatus = "unknown";
   try {
     if (appConfig.databaseUrl) {
@@ -131,6 +136,10 @@ app.use("/api", teacherGamesRouter);
 app.use("/api", teacherAssignmentsRouter);
 app.use("/api", teacherAttendanceRouter);
 app.use("/api", teacherGradesRouter);
+
+app.use((_request, response) => {
+  response.status(404).json({ error: "Rute API tidak ditemukan." });
+});
 
 app.use(
   (
