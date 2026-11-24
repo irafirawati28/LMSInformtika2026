@@ -34,6 +34,13 @@ import { sessionMiddleware } from "./middleware/session.js";
 import { csrfProtection } from "./middleware/csrf.js";
 import { appConfig } from "./config/app-config.js";
 import { pool } from "./db/pool.js";
+import { readFileSync } from "node:fs";
+
+try {
+  readFileSync(new URL("../package.json", import.meta.url), "utf8");
+} catch {
+  // Silent fallback if running in environments where package.json is moved
+}
 
 const app = express();
 const supabaseOrigin = appConfig.supabaseUrl ? new URL(appConfig.supabaseUrl).origin : null;

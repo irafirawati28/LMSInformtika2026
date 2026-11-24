@@ -8,7 +8,12 @@
     "server": {
       "root": "server",
       "framework": "express",
-      "entrypoint": "src/app.ts"
+      "entrypoint": "src/app.ts",
+      "functions": {
+        "**": {
+          "includeFiles": "package.json"
+        }
+      }
     }
   },
   "rewrites": [
