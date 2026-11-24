@@ -60,7 +60,12 @@ app.get("/api/health", async (_request, response) => {
   let dbStatus = "unknown";
   try {
     if (appConfig.databaseUrl) {
-      await pool.query("SELECT 1");
+      await Promise.race([
+        pool.query("SELECT 1"),
+        new Promise((_, reject) =>
+          setTimeout(() => reject(new Error("Database connection timeout (3500ms)")), 3500),
+        ),
+      ]);
       dbStatus = "connected";
     } else {
       dbStatus = "missing_database_url";
@@ -75,7 +80,7 @@ app.get("/api/health", async (_request, response) => {
     database: dbStatus,
     config: {
       hasDatabaseUrl: Boolean(appConfig.databaseUrl),
-      hasCaCert: Boolean(appConfig.databaseCaCertBase64),
+      hasCaCert: Boolean(appConfig.databaseCaCertBase64 || appConfig.databaseCaCert),
       hasSessionSecret: Boolean(process.env.SESSION_SECRET),
       hasSupabaseUrl: Boolean(appConfig.supabaseUrl),
       hasServiceRoleKey: Boolean(appConfig.supabaseServiceRoleKey),

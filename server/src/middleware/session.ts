@@ -32,7 +32,10 @@ class PostgresSessionStore extends session.Store {
         }
         callback(undefined, parsed as session.SessionData);
       })
-      .catch(callback);
+      .catch((error: unknown) => {
+        console.error("Session get error (treating as unauthenticated):", error);
+        callback(undefined, null);
+      });
   }
 
   override set(
