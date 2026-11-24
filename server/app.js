@@ -132790,9 +132790,13 @@ if (!ca && databaseUrl2.hostname.includes("supabase.com")) {
 for (const parameter of ["sslmode", "sslcert", "sslkey", "sslrootcert"]) {
   databaseUrl2.searchParams.delete(parameter);
 }
+var rejectUnauthorized = process.env.DATABASE_SSL_REJECT_UNAUTHORIZED === "true";
 var pool = new Pool({
   connectionString: databaseUrl2.toString(),
-  ssl: useSsl ? ca ? { rejectUnauthorized: true, ca } : { rejectUnauthorized: false } : false,
+  ssl: useSsl ? {
+    rejectUnauthorized,
+    ...ca ? { ca } : {}
+  } : false,
   max: 5,
   idleTimeoutMillis: 3e4,
   connectionTimeoutMillis: 5e3

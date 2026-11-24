@@ -65,10 +65,15 @@ for (const parameter of ["sslmode", "sslcert", "sslkey", "sslrootcert"]) {
   databaseUrl.searchParams.delete(parameter);
 }
 
+const rejectUnauthorized = process.env.DATABASE_SSL_REJECT_UNAUTHORIZED === "true";
+
 export const pool = new Pool({
   connectionString: databaseUrl.toString(),
   ssl: useSsl
-    ? (ca ? { rejectUnauthorized: true, ca } : { rejectUnauthorized: false })
+    ? {
+        rejectUnauthorized,
+        ...(ca ? { ca } : {}),
+      }
     : false,
   max: 5,
   idleTimeoutMillis: 30_000,
