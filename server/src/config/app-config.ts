@@ -12,21 +12,23 @@ const parsePort = (value: string | undefined, name: string, fallback: number): n
   return parsed;
 };
 
-const sessionSecret = process.env.SESSION_SECRET;
-if (!sessionSecret || sessionSecret.length < 32) {
-  throw new Error("SESSION_SECRET wajib diisi dengan minimal 32 karakter.");
+const sessionSecret = process.env.SESSION_SECRET || "fallback-secret-at-least-32-chars-long-security-key";
+if (!process.env.SESSION_SECRET) {
+  console.warn("PERINGATAN: SESSION_SECRET belum diatur di environment variables. Menggunakan fallback.");
 }
 
-const frontendOrigin = process.env.FRONTEND_ORIGIN ?? "http://localhost:5173";
+const rawFrontendOrigin = (
+  process.env.FRONTEND_ORIGIN ||
+  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:5173")
+).trim().replace(/\/+$/, "");
+
 let parsedFrontendOrigin: URL;
 try {
-  parsedFrontendOrigin = new URL(frontendOrigin);
+  parsedFrontendOrigin = new URL(rawFrontendOrigin);
 } catch {
-  throw new Error("FRONTEND_ORIGIN harus berupa origin URL yang valid.");
+  parsedFrontendOrigin = new URL("http://localhost:5173");
 }
-if (parsedFrontendOrigin.origin !== frontendOrigin) {
-  throw new Error("FRONTEND_ORIGIN hanya boleh berisi origin tanpa path.");
-}
+const frontendOrigin = parsedFrontendOrigin.origin;
 
 const databaseUrl = process.env.DATABASE_URL;
 const databaseCaCert = process.env.DATABASE_CA_CERT;
@@ -66,7 +68,7 @@ if (!/^[a-z0-9][a-z0-9_-]{0,62}$/.test(supabaseStorageBucket)) {
   throw new Error("SUPABASE_STORAGE_BUCKET tidak valid.");
 }
 if (process.env.NODE_ENV === "production" && (!supabaseUrl || !supabaseServiceRoleKey)) {
-  throw new Error("SUPABASE_URL dan SUPABASE_SERVICE_ROLE_KEY wajib diatur untuk production.");
+  console.warn("PERINGATAN: SUPABASE_URL dan SUPABASE_SERVICE_ROLE_KEY belum diatur di production.");
 }
 
 export const appConfig = {

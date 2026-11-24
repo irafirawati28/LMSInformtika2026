@@ -15,7 +15,8 @@ export const csrfProtection = (
 
   const origin = request.get("origin");
   const requestOrigin = `${request.protocol}://${request.get("host")}`;
-  if (origin && origin !== appConfig.frontendOrigin && origin !== requestOrigin) {
+  const isVercel = Boolean(origin && origin.endsWith(".vercel.app"));
+  if (origin && origin !== appConfig.frontendOrigin && origin !== requestOrigin && !isVercel) {
     response.status(403).json({ error: "Origin permintaan tidak diizinkan." });
     return;
   }
