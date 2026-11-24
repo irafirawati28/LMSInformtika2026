@@ -3,10 +3,10 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "main": "src/app.ts",
+  "main": "app.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "tsc",
+    "build": "tsc && esbuild src/app.ts --bundle --platform=node --format=cjs --footer:js=\"module.exports = app_default; module.exports.default = app_default;\" --outfile=app.js",
     "start": "node dist/server.js",
     "typecheck": "tsc --noEmit",
     "provision-user": "tsx src/db/provision-user.ts",
