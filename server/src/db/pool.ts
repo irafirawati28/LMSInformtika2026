@@ -40,7 +40,6 @@ types.setTypeParser(20, (value) => value);
 const defaultDbUrl = "postgresql://localhost:5432/postgres";
 const databaseUrl = new URL(appConfig.databaseUrl || defaultDbUrl);
 const caCertPath = appConfig.databaseCaCert ?? databaseUrl.searchParams.get("sslrootcert");
-const serverRoot = fileURLToPath(new URL("../../", import.meta.url));
 
 let ca: string | undefined;
 if (appConfig.databaseCaCertBase64) {
@@ -51,7 +50,7 @@ if (appConfig.databaseCaCertBase64) {
   }
 } else if (caCertPath) {
   try {
-    ca = readFileSync(resolve(serverRoot, caCertPath), "utf8");
+    ca = readFileSync(resolve(process.cwd(), caCertPath), "utf8");
   } catch {
     ca = undefined;
   }

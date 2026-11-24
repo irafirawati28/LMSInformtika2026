@@ -34,9 +34,7 @@ const studentRouter = Router();
 teacherRouter.use(requireTeacher);
 studentRouter.use(requireStudent);
 
-const privateAssignmentStorage = resolve(
-  fileURLToPath(new URL("../../../storage/assignments/", import.meta.url)),
-);
+const privateAssignmentStorage = resolve(process.cwd(), "storage/assignments");
 const assignmentUpload = multer({
   storage: multer.memoryStorage(),
   limits: { fileSize: 20 * 1024 * 1024, files: 1 },

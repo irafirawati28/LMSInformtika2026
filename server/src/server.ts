@@ -23,7 +23,11 @@ const startServer = async (): Promise<void> => {
   });
 };
 
-startServer().catch((error: unknown) => {
-  console.error("API tidak dapat dimulai. Periksa DATABASE_URL dan koneksi Supabase.", error);
-  process.exitCode = 1;
-});
+if (!process.env.VERCEL) {
+  startServer().catch((error: unknown) => {
+    console.error("API tidak dapat dimulai. Periksa DATABASE_URL dan koneksi Supabase.", error);
+    process.exitCode = 1;
+  });
+}
+
+export default app;

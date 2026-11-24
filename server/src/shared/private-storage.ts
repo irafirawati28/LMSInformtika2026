@@ -8,9 +8,9 @@ import { appConfig } from "../config/app-config.js";
 export type PrivateStorageArea = "modules" | "assignments" | "imports";
 
 const storageDirectories: Record<PrivateStorageArea, string> = {
-  modules: resolve(fileURLToPath(new URL("../../storage/modules/", import.meta.url))),
-  assignments: resolve(fileURLToPath(new URL("../../storage/assignments/", import.meta.url))),
-  imports: resolve(fileURLToPath(new URL("../../storage/imports/", import.meta.url))),
+  modules: resolve(process.cwd(), "storage/modules"),
+  assignments: resolve(process.cwd(), "storage/assignments"),
+  imports: resolve(process.cwd(), "storage/imports"),
 };
 const remotePrefix = "supabase:";
 const supabase = appConfig.supabaseUrl && appConfig.supabaseServiceRoleKey

@@ -84,9 +84,7 @@ const studentRouter = Router();
 teacherRouter.use(requireTeacher);
 studentRouter.use(requireStudent);
 
-const moduleStorageDirectory = fileURLToPath(
-  new URL("../../../storage/modules/", import.meta.url),
-);
+const moduleStorageDirectory = resolve(process.cwd(), "storage/modules");
 const privateModuleStorageDirectory = resolve(moduleStorageDirectory);
 const moduleUpload = multer({
   storage: multer.memoryStorage(),
